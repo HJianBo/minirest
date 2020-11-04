@@ -154,7 +154,8 @@ jsonify(Code, Response, Req) ->
 jsonify(Code, Headers, Response, Req) ->
     try json_encode(Response) of
         Json ->
-            cowboy_req:reply(Code, maps:merge(#{<<"content-type">> => <<"application/json">>}, Headers), Json, Req)
+            cowboy_req:reply(Code, maps:merge(#{<<"content-type">> => <<"application/json">>,
+                                                <<"Access-Control-Allow-Origin">> => <<"*">>}, Headers), Json, Req)
     catch
         error:Reason:_Stacktrace ->
             ?LOG(error, "Encode ~p failed with ~p", [Response, Reason])
